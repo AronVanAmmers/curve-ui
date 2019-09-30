@@ -130,6 +130,7 @@ input, textarea {
   color: aqua;
   width: 100%;
   max-width: 100%;
+  font-size: 12pt;
 }
 
 input[type=radio],
