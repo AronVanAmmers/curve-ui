@@ -82,27 +82,35 @@
       yaxis: {
         tooltip: {
           enabled: true
-        },
-        min: 1.005,
-        max: 1.011
+        }
       }
     }
 
     $.getJSON('data.json', function(json) {
-        json.forEach(function(el) {
+        for (let i = 0; i < json.length; i++) {
+            var el = json[i];
             options.series[0].data.push({
                 x: new Date(el[0] * 1000),
                 y: [el[3], el[2], el[1], el[4]]
             });
-        });
+            if (isNaN(options.yaxis.min)) {
+                options.yaxis.min = el[3];
+                options.yaxis.max = el[4];
+            }
+            options.yaxis.min = Math.min(el[1], el[2], el[3], el[4], options.yaxis.min);
+            options.yaxis.max = Math.max(el[1], el[2], el[3], el[4], options.yaxis.max);
+        }
+        var h = options.yaxis.max - options.yaxis.min;
+        options.yaxis.min -= h / 3;
+        options.yaxis.max += h / 3;
+
+        var chart = new ApexCharts(
+          document.querySelector("#chart"),
+          options
+        );
+
+        chart.render();
     });
-
-    var chart = new ApexCharts(
-      document.querySelector("#chart"),
-      options
-    );
-
-    chart.render();
     </script>
             </fieldset>
         </div>
