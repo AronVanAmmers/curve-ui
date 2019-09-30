@@ -140,19 +140,23 @@ input[type=checkbox] + label[for]:before {
 }
 
 input[type=radio] + label[for]:before {
-  content: "( ) "
+  content: "( ) ";
+  cursor: pointer;
 }
 
 input[type=checkbox] + label[for]:before {
-  content: "[ ] "
+  content: "[ ] ";
+  cursor: pointer;
 }
 
 input[type=radio]:checked + label[for]:before {
-  content: "(•) "
+  content: "(•) ";
+  cursor: pointer;
 }
 
 input[type=checkbox]:checked + label[for]:before {
-  content: "[X] "
+  content: "[X] ";
+  cursor: pointer;
 }
 
 .window > textarea {
@@ -173,14 +177,26 @@ li {
 }
 
 .top-menu-bar {
-  /*position: fixed; top: 0; left: 0; right: 0;*/
-  background: white;
+  position: fixed; top: 0; left: 0; right: 0;
+  background: silver;
+  font-weight: bolder;
+  text-align: center;
 }
 
 .top-menu-bar a {
   margin: 0 2em;
   text-decoration: none;
-  color: black
+  color: black;
+  padding: 0 1em;
+}
+
+.top-menu-bar a:visited {
+    color: black;
+}
+
+.top-menu-bar a:hover {
+    background-color: blue;
+    color: white;
 }
 
 strong:before, strong:after { content: "*"; }
