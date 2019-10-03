@@ -13,11 +13,11 @@ body {
   position: relative;
   cursor: default;
   margin: 2em auto; width: 80%;
-  background: blue; color: white;
+  background: #3465a4; color: white;
   border: 6px double white;
   padding: 1em;
   box-shadow:
-    0   0   0   3px blue,
+    0   0   0   3px #3465a4,
     1em 1em 3px 0 rgba(0,0,0,.5);
   max-width: 640px;
 }
