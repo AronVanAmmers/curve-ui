@@ -845,19 +845,27 @@ function init_ui() {
         from_currency = this.value;
         set_amount(this.value, "#from_currency");
         if (to_currency == from_currency) {
-            $("#to_cur_" + to_currency).attr('checked', false);
             if (from_currency == 0) {
                 to_currency = 1;
             } else {
                 to_currency = 0;
             }
-            $("#to_cur_" + to_currency).attr('checked', true);
+            $("#to_cur_" + to_currency).prop('checked', true);
             set_amount(to_currency, "#to_currency");
         }
     });
     $('input[type=radio][name=to_cur]').change(function() {
         to_currency = this.value;
         set_amount(this.value, "#to_currency");
+        if (to_currency == from_currency) {
+            if (to_currency == 0) {
+                from_currency = 1;
+            } else {
+                from_currency = 0;
+            }
+            $("#from_cur_" + from_currency).prop('checked', true);
+            set_amount(from_currency, "#from_currency");
+        }
     });
 
     $("#from_cur_0").attr('checked', true);

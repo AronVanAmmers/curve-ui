@@ -205,6 +205,11 @@ li {
     color: white;
 }
 
+.top-menu-bar a.selected {
+    background-color: #505050;
+    color: #c0c0c0;
+}
+
 strong:before, strong:after { content: "*"; }
 i:before, i:after { content: "/"; }
 
