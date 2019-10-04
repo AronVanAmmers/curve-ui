@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>StableSwap: stablecoin exchange</title>
+    <link rel="stylesheet" href="tvision.css" />
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="/abis.js"></script>
+  </head>
+  <body>
+    <div class="top-menu-bar">
+      <a href="/">Buy and sell</a>
+      <a href="/liquidity.html" class="selected">Deposit and withdraw</a>
+    </div>
+    <div id="screen">
+        <div class="blue window">
+            <h1>StableSwap: stablecoin exchange</h1>
+        </div>
+
+        <div class="window white add-liquidity">
+            <fieldset>
+                <legend>Currencies:</legend>
+                <ul>
+                    <li>
+                        <label for="currency_0">DAI</label>
+                        <input type="text" id="currency_0" name="from_cur" value="0.0">
+                    </li>
+                    <li>
+                        <label for="currency_1">USDC</label>
+                        <input type="text" id="currency_1" name="from_cur" value="0.0">
+                    </li>
+                    <li>
+                        <label for="currency_2">USDT</label>
+                        <input type="text" id="currency_2" name="from_cur" value="0.0">
+                    </li>
+                </ul>
+            </fieldset>
+            <p>
+                <input id="sync-balances" type="checkbox" name="sync-balances" checked>
+                <label for="sync-balances">Add all coins in a balanced proportion</label>
+            </p>
+
+            <p style="text-align: center">
+                <button>Add liquidity</button>
+                <button>Remove liquidity</button>
+            </p>
+        </div>
+    </div>
+
+    <div class="blue window half-width">
+        <h3>Notifications</h3>
+        <p>Fees change: blah</p>
+    </div>
+
+  </body>
+</html>

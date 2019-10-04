@@ -210,6 +210,9 @@ li {
     color: #c0c0c0;
 }
 
+div.add-liquidity input {
+    margin-bottom: 0.5em;
+}
+
 strong:before, strong:after { content: "*"; }
 i:before, i:after { content: "/"; }
-
