@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="/abis.js"></script>
+    <script src="/liquidity.js"></script>
   </head>
   <body>
     <div class="top-menu-bar">
@@ -20,7 +21,7 @@
         </div>
 
         <div class="window white add-liquidity">
-            <fieldset>
+            <fieldset class="currencies">
                 <legend>Currencies:</legend>
                 <ul>
                     <li>
@@ -37,14 +38,20 @@
                     </li>
                 </ul>
             </fieldset>
-            <p>
-                <input id="sync-balances" type="checkbox" name="sync-balances" checked>
-                <label for="sync-balances">Add all coins in a balanced proportion</label>
-            </p>
+            <ul>
+                <li>
+                    <input id="sync-balances" type="checkbox" name="sync-balances" checked>
+                    <label for="sync-balances">Add all coins in a balanced proportion</label>
+                </li>
+                <li>
+                    <input id="max-balances" type="checkbox" name="max-balances" checked>
+                    <label for="max-balances">Use maximum amount of coins available</label>
+                </li>
+            </ul>
 
             <p style="text-align: center">
-                <button>Add liquidity</button>
-                <button>Remove liquidity</button>
+                <button id="add-liquidity">Add liquidity</button>
+                <button id="remove-liquidity">Remove liquidity</button>
             </p>
         </div>
     </div>

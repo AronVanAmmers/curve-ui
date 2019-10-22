@@ -132,6 +132,10 @@ input, textarea {
   max-width: 100%;
   font-size: 12pt;
 }
+input:disabled {
+  background: #707070;
+  color: #d0d0d0;
+}
 
 input[type=radio],
 input[type=checkbox] {
