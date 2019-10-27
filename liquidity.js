@@ -53,7 +53,7 @@ async function handle_add_liquidity() {
     amounts = amounts.map(x => x * 1e18);
     var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
     await ensure_allowance();
-    //await swap.add_liquidity(amounts, deadline);
+    await swap.add_liquidity(amounts, deadline);
 }
 
 async function handle_remove_liquidity() {
