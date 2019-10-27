@@ -3,6 +3,8 @@ var swap_token;
 var ERC20Contract;
 var sync_balances;
 var balances = new Array(N_COINS);
+const trade_timeout = 600;
+const max_allowance = 1e9 * 1e18;
 
 
 // XXXXXXXXXXXXXXXXXXXXX
@@ -35,18 +37,26 @@ const proxiedWeb3Handler = {
 const w3 = new Proxy(web3, proxiedWeb3Handler);
 // XXXXXXXXXXXXXXXXXXXXX
 
+async function ensure_allowance() {
+    // Coins to trade
+    for (let i = 0; i < N_COINS; i++)
+        if ((await coins[i].allowance(web3.eth.defaultAccount, swap_address)).toNumber() == 0)
+            await coins[i].approve(swap_address, max_allowance);
 
-function set_amount(i, el_id) {
-    coins[i].balanceOf(web3.eth.accounts[0], (err, value) => {
-        var out = (value / 1e18).toFixed(18);
-        $(el_id).val(out);
-    });
+    // Coin which represents a share in liquidity pool
+    if ((await swap_token.allowance(web3.eth.defaultAccount, swap_address)).toNumber() == 0)
+        await swap_token.approve(swap_address, max_allowance);
 }
 
-function handle_add_liquidity() {
+async function handle_add_liquidity() {
+    var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
+    amounts = amounts.map(x => x * 1e18);
+    var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
+    await ensure_allowance();
+    //await swap.add_liquidity(amounts, deadline);
 }
 
-function handle_remove_liquidity() {
+async function handle_remove_liquidity() {
 }
 
 async function init_contracts() {
@@ -65,27 +75,23 @@ async function init_contracts() {
     $("#remove-liquidity").click(handle_remove_liquidity);
 }
 
-function handle_sync_balances() {
+async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
 
     if (max_balances) {
         $(".currencies input").prop('disabled', true);
         for (let i = 0; i < N_COINS; i++) {
-            coins[i].balanceOf(web3.eth.accounts[0], (err, val) => {
-                var out = (val / 1e18).toFixed(2);
-                $('#currency_' + i).val(out);
-            })
+            var val = await coins[i].balanceOf(web3.eth.accounts[0])
+            val = (val.toNumber() / 1e18).toFixed(2);
+            $('#currency_' + i).val(val);
         }
     } else {
         $(".currencies input").prop('disabled', false);
     }
 
-    for (let i = 0; i < N_COINS; i++) {
-        swap.balances(i, (err, val) => {
-            balances[i] = val.c[0];  // WHY not just val?? Idk
-        })
-    }
+    for (let i = 0; i < N_COINS; i++)
+        balances[i] = (await swap.balances(i)).toNumber();
 }
 
 function init_ui() {
@@ -107,19 +113,14 @@ function init_ui() {
 
     $('#sync-balances').change(handle_sync_balances);
     $('#max-balances').change(handle_sync_balances);
-    handle_sync_balances();
 }
 
 window.addEventListener('load', async () => {
     if (window.ethereum) {
         window.web3 = new Web3(ethereum);
-        try {
-            await ethereum.enable();
-            init_contracts();
-            init_ui();
-            handle_sync_balances();
-        } catch (error) {
-            // Well shit
-        }
+        await ethereum.enable();
+        await init_contracts();
+        init_ui();
+        await handle_sync_balances();
     }
 });
