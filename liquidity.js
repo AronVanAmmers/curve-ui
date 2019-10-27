@@ -82,7 +82,7 @@ async function handle_sync_balances() {
     if (max_balances) {
         $(".currencies input").prop('disabled', true);
         for (let i = 0; i < N_COINS; i++) {
-            var val = await coins[i].balanceOf(web3.eth.accounts[0])
+            var val = await coins[i].balanceOf(web3.eth.accounts[0]);
             val = (val.toNumber() / 1e18).toFixed(2);
             $('#currency_' + i).val(val);
         }
@@ -95,13 +95,15 @@ async function handle_sync_balances() {
 }
 
 function init_ui() {
-    for (i = 0; i < N_COINS; i++) {
+    for (let i = 0; i < N_COINS; i++) {
         $('#currency_' + i).on('input', function() {
             if (sync_balances) {
-                for (j = 0; j < N_COINS; j++) {
+                for (let j = 0; j < N_COINS; j++) {
                     if (balances[i] > 1e18) {
                         if (j != i) {
-                            console.log(j, this.value, balances[j]);
+                            var newval = this.value * balances[j] / balances[i];
+                            newval = newval.toFixed(10);
+                            $('#currency_' + j).val(newval);
                         }
                     } else {
                         $('#currency_' + j).val(this.value);
