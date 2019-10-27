@@ -15,7 +15,6 @@ Out[6]: '0xA3151DaAdFd0231F8567182Dc21b388Cc3A4ec68'
  */
 
 var N_COINS = 3;
-var coins = new Array(N_COINS);
 var swap_address = '0x4bB4aB4d03a52A4c303d1498066907ec616f7C88';
 var token_address = '0xA3151DaAdFd0231F8567182Dc21b388Cc3A4ec68';
 

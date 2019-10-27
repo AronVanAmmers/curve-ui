@@ -107,24 +107,23 @@ function init_ui() {
                 el.css('background-color', 'blue');
 
             if (sync_balances) {
-                for (let j = 0; j < N_COINS; j++) {
-                    if (balances[i] > 1e18) {
-                        if (j != i) {
-                            var newval = this.value * balances[j] / balances[i];
-                            newval = newval.toFixed(10);
-                            $('#currency_' + j).val(newval);
+                for (let j = 0; j < N_COINS; j++)
+                    if (j != i) {
+                        if (balances[i] > 1e18) {
+                                var newval = this.value * balances[j] / balances[i];
+                                newval = newval.toFixed(10);
+                                $('#currency_' + j).val(newval);
+
+                        } else {
+                            $('#currency_' + j).val(this.value);
                         }
 
-                    } else {
-                        $('#currency_' + j).val(this.value);
+                        el = $('#currency_' + j);
+                        if (newval * 1e18 > wallet_balances[j])
+                            el.css('background-color', 'red')
+                        else
+                            el.css('background-color', 'blue');
                     }
-
-                    el = $('#currency_' + j);
-                    if (newval * 1e18 > wallet_balances[j])
-                        el.css('background-color', 'red')
-                    else
-                        el.css('background-color', 'blue');
-                }
             }
         });
     }
