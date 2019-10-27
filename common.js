@@ -63,3 +63,10 @@ async function init_contracts() {
         coins[i] = new Proxy(ERC20Contract.at(addr), proxiedWeb3Handler);
     }
 }
+
+function init_menu() {
+    $("div.top-menu-bar a").toArray().forEach(function(el) {
+        if (el.href == window.location.href)
+            el.classList.add('selected')
+    })
+}

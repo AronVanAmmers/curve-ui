@@ -33,6 +33,8 @@ async function handle_sync_balances() {
 }
 
 function init_ui() {
+    init_menu();
+
     for (let i = 0; i < N_COINS; i++) {
         $('#currency_' + i).on('input', function() {
             var el = $('#currency_' + i);
