@@ -11,22 +11,6 @@ async function handle_add_liquidity() {
 async function handle_remove_liquidity() {
 }
 
-async function init_contracts() {
-    var SwapContract = web3.eth.contract(swap_abi);
-    ERC20Contract = web3.eth.contract(ERC20_abi);
-
-    swap = new Proxy(SwapContract.at(swap_address), proxiedWeb3Handler);
-    swap_token = new Proxy(ERC20Contract.at(token_address), proxiedWeb3Handler);
-
-    for (let i = 0; i < N_COINS; i++) {
-        var addr = await swap.coins(i);
-        coins[i] = new Proxy(ERC20Contract.at(addr), proxiedWeb3Handler);
-    }
-
-    $("#add-liquidity").click(handle_add_liquidity);
-    $("#remove-liquidity").click(handle_remove_liquidity);
-}
-
 async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
@@ -81,6 +65,8 @@ function init_ui() {
 
     $('#sync-balances').change(handle_sync_balances);
     $('#max-balances').change(handle_sync_balances);
+    $("#add-liquidity").click(handle_add_liquidity);
+    $("#remove-liquidity").click(handle_remove_liquidity);
 }
 
 window.addEventListener('load', async () => {

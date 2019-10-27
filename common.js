@@ -47,6 +47,19 @@ async function ensure_allowance() {
             await coins[i].approve(swap_address, max_allowance);
 
     // Coin which represents a share in liquidity pool
-    if ((await swap_token.allowance(web3.eth.defaultAccount, swap_address)).toNumber() < wallet_balances[i])
+    if ((await swap_token.allowance(web3.eth.defaultAccount, swap_address)).toNumber() == 0)
         await swap_token.approve(swap_address, max_allowance);
+}
+
+async function init_contracts() {
+    var SwapContract = web3.eth.contract(swap_abi);
+    ERC20Contract = web3.eth.contract(ERC20_abi);
+
+    swap = new Proxy(SwapContract.at(swap_address), proxiedWeb3Handler);
+    swap_token = new Proxy(ERC20Contract.at(token_address), proxiedWeb3Handler);
+
+    for (let i = 0; i < N_COINS; i++) {
+        var addr = await swap.coins(i);
+        coins[i] = new Proxy(ERC20Contract.at(addr), proxiedWeb3Handler);
+    }
 }
