@@ -3,6 +3,7 @@ var swap_token;
 var ERC20Contract;
 var sync_balances;
 var balances = new Array(N_COINS);
+var wallet_balances = new Array(N_COINS);
 const trade_timeout = 600;
 const max_allowance = 1e9 * 1e18;
 
@@ -79,11 +80,13 @@ async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
 
+    for (let i = 0; i < N_COINS; i++)
+        wallet_balances[i] = (await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber();
+
     if (max_balances) {
         $(".currencies input").prop('disabled', true);
         for (let i = 0; i < N_COINS; i++) {
-            var val = await coins[i].balanceOf(web3.eth.accounts[0]);
-            val = (val.toNumber() / 1e18).toFixed(2);
+            var val = (wallet_balances[i] / 1e18).toFixed(2);
             $('#currency_' + i).val(val);
         }
     } else {
@@ -97,6 +100,12 @@ async function handle_sync_balances() {
 function init_ui() {
     for (let i = 0; i < N_COINS; i++) {
         $('#currency_' + i).on('input', function() {
+            var el = $('#currency_' + i);
+            if (this.value * 1e18 > wallet_balances[i])
+                el.css('background-color', 'red')
+            else
+                el.css('background-color', 'blue');
+
             if (sync_balances) {
                 for (let j = 0; j < N_COINS; j++) {
                     if (balances[i] > 1e18) {
@@ -105,9 +114,16 @@ function init_ui() {
                             newval = newval.toFixed(10);
                             $('#currency_' + j).val(newval);
                         }
+
                     } else {
                         $('#currency_' + j).val(this.value);
                     }
+
+                    el = $('#currency_' + j);
+                    if (newval * 1e18 > wallet_balances[j])
+                        el.css('background-color', 'red')
+                    else
+                        el.css('background-color', 'blue');
                 }
             }
         });
