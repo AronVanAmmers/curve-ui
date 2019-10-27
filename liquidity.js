@@ -41,11 +41,11 @@ const w3 = new Proxy(web3, proxiedWeb3Handler);
 async function ensure_allowance() {
     // Coins to trade
     for (let i = 0; i < N_COINS; i++)
-        if ((await coins[i].allowance(web3.eth.defaultAccount, swap_address)).toNumber() == 0)
+        if ((await coins[i].allowance(web3.eth.defaultAccount, swap_address)).toNumber() < wallet_balances[i])
             await coins[i].approve(swap_address, max_allowance);
 
     // Coin which represents a share in liquidity pool
-    if ((await swap_token.allowance(web3.eth.defaultAccount, swap_address)).toNumber() == 0)
+    if ((await swap_token.allowance(web3.eth.defaultAccount, swap_address)).toNumber() < wallet_balances[i])
         await swap_token.approve(swap_address, max_allowance);
 }
 
