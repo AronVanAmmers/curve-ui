@@ -9,7 +9,7 @@
     <script src="/jquery.min.js"></script>
     <script src="/abis.js"></script>
     <script src="/common.js"></script>
-    <script src="/liquidity.js"></script>
+    <script src="/withdraw.js"></script>
   </head>
   <body>
     <div class="top-menu-bar">
@@ -23,6 +23,14 @@
         </div>
 
         <div class="window white add-liquidity">
+            <fieldset class="percentage">
+                <legend>Share of liquidity (%)</legend>
+                <ul>
+                    <li>
+                        <input type="text" id="liquidity-share" name="liquidity-share" value="0.0">
+                    </li>
+                </ul>
+            </fieldset>
             <fieldset class="currencies">
                 <legend>Currencies:</legend>
                 <ul>
@@ -40,19 +48,9 @@
                     </li>
                 </ul>
             </fieldset>
-            <ul>
-                <li>
-                    <input id="sync-balances" type="checkbox" name="sync-balances" checked>
-                    <label for="sync-balances">Add all coins in a balanced proportion</label>
-                </li>
-                <li>
-                    <input id="max-balances" type="checkbox" name="max-balances" checked>
-                    <label for="max-balances">Use maximum amount of coins available</label>
-                </li>
-            </ul>
 
             <p style="text-align: center">
-                <button id="add-liquidity">Deposit</button>
+                <button id="remove-liquidity">Withdraw</button>
             </p>
         </div>
     </div>

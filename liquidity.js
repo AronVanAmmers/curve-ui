@@ -8,9 +8,6 @@ async function handle_add_liquidity() {
     await swap.add_liquidity(amounts, deadline);
 }
 
-async function handle_remove_liquidity() {
-}
-
 async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
@@ -66,7 +63,6 @@ function init_ui() {
     $('#sync-balances').change(handle_sync_balances);
     $('#max-balances').change(handle_sync_balances);
     $("#add-liquidity").click(handle_add_liquidity);
-    $("#remove-liquidity").click(handle_remove_liquidity);
 }
 
 window.addEventListener('load', async () => {
