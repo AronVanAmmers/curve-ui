@@ -54,9 +54,16 @@ function handle_change_share() {
 async function handle_remove_liquidity() {
     var share = $('#liquidity-share');
     var share_val = share.val();
+    var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
+    var amounts = $("[id^=currency_]").toArray().map(x => $(x).val() * 1e18);
+    var min_amounts = amounts.map(x => (0.97 * x).toFixed());
+    ensure_token_allowance();
     if (share_val == '---') {
+        await swap.remove_liquidity_imbalance(amounts, deadline);
     }
     else {
+        var amount = (share_val / 100 * token_balance).toFixed();
+        await swap.remove_liquidity(amount, deadline, min_amounts);
     }
 
     await update_balances();
