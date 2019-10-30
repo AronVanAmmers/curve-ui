@@ -1,13 +1,5 @@
 var sync_balances;
 
-async function handle_add_liquidity() {
-    var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
-    amounts = amounts.map(x => x * 1e18);
-    var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-    await ensure_allowance();
-    await swap.add_liquidity(amounts, deadline);
-}
-
 async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
@@ -27,6 +19,15 @@ async function handle_sync_balances() {
 
     for (let i = 0; i < N_COINS; i++)
         balances[i] = (await swap.balances(i)).toNumber();
+}
+
+async function handle_add_liquidity() {
+    var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
+    amounts = amounts.map(x => x * 1e18);
+    var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
+    await ensure_allowance();
+    await swap.add_liquidity(amounts, deadline);
+    await handle_sync_balances();
 }
 
 function init_ui() {
