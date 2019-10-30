@@ -42,7 +42,10 @@ function handle_change_share() {
 
     for (let i = 0; i < N_COINS; i++) {
         var cur = $('#currency_' + i);
-        cur.val('0.0');
+        if ((val >=0) & (val <= 100))
+            cur.val((val / 100 * balances[i] * token_balance / token_supply / 1e18).toFixed(2))
+        else
+            cur.val('0.00');
         cur.css('background-color', '#707070');
         cur.css('color', '#d0d0d0');
     }
