@@ -8,7 +8,6 @@ async function set_amount(css_id, i) {
 async function from_cur_handler() {
     from_currency = $('input[type=radio][name=from_cur]:checked').val();
     to_currency = $('input[type=radio][name=to_cur]:checked').val();
-    console.log(from_currency, to_currency);
     set_amount('#from_currency', from_currency);
     if (to_currency == from_currency) {
         if (from_currency == 0) {
