@@ -1,11 +1,13 @@
-async function handle_remove_liquidity() {
-}
+var token_balance;
+var token_supply;
 
 async function update_balances() {
     for (let i = 0; i < N_COINS; i++)
         wallet_balances[i] = (await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber();
     for (let i = 0; i < N_COINS; i++)
         balances[i] = (await swap.balances(i)).toNumber();
+    token_balance = (await swap_token.balanceOf(web3.eth.defaultAccount)).toNumber();
+    token_supply = (await swap_token.totalSupply()).toNumber();
 }
 
 function handle_change_amounts(i) {
@@ -20,8 +22,8 @@ function handle_change_amounts(i) {
         }
         var share = $('#liquidity-share');
         share.val('---');
-        share.css('background-color', 'gray');
-        share.css('color', '#505050');
+        share.css('background-color', '#707070');
+        share.css('color', '#d0d0d0');
     }
 }
 
@@ -41,9 +43,20 @@ function handle_change_share() {
     for (let i = 0; i < N_COINS; i++) {
         var cur = $('#currency_' + i);
         cur.val('0.0');
-        cur.css('background-color', 'gray');
-        cur.css('color', '#505050');
+        cur.css('background-color', '#707070');
+        cur.css('color', '#d0d0d0');
     }
+}
+
+async function handle_remove_liquidity() {
+    var share = $('#liquidity-share');
+    var share_val = share.val();
+    if (share_val == '---') {
+    }
+    else {
+    }
+
+    await update_balances();
 }
 
 function init_ui() {
@@ -53,6 +66,8 @@ function init_ui() {
     }
     $('#liquidity-share').focus(handle_change_share);
     $('#liquidity-share').on('input', handle_change_share);
+
+    handle_change_share();
 
     $("#remove-liquidity").click(handle_remove_liquidity);
 }
