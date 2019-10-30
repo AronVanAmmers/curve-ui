@@ -66,14 +66,12 @@ function init_ui() {
 }
 
 window.addEventListener('load', async () => {
+    init_menu();
+
     if (window.ethereum) {
         window.web3 = new Web3(ethereum);
-        try {
-            await ethereum.enable();
-            init_contracts();
-            init_ui();
-        } catch (error) {
-            // ???
-        }
+        await ethereum.enable();
+        await init_contracts();
+        init_ui();
     }
 });
