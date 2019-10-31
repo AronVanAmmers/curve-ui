@@ -133,8 +133,9 @@ input, textarea {
   font-size: 12pt;
 }
 input:disabled {
-  background: #707070;
+  background: #505070;
   color: #d0d0d0;
+  border: 2px solid #505070;
 }
 
 input[type=radio],
