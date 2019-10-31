@@ -1,14 +1,32 @@
 var from_currency;
 var to_currency;
 
-async function set_amount(css_id, i) {
-    $(css_id).val(((await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber() / 1e18).toFixed(2));
+async function set_from_amount(i) {
+    var el = $('#from_currency');
+    if (el.val() == '')
+        $('#from_currency').val(
+            ((await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber() / 1e18
+            ).toFixed(18)
+        );
+}
+
+async function set_to_amount() {
+    var i = from_currency;
+    var j = to_currency;
+    var b = (await swap.balances(i)).toNumber();
+    if (b >= 1e8) {
+        var dx = $('#from_currency').val() * 1e18;
+        var dy = ((await swap.get_dy(i, j, dx)).toNumber() / 1e18).toFixed(18);
+        $('#to_currency').val(dy);
+    }
+    else
+        $('#from_currency').prop('disabled', true);
 }
 
 async function from_cur_handler() {
     from_currency = $('input[type=radio][name=from_cur]:checked').val();
     to_currency = $('input[type=radio][name=to_cur]:checked').val();
-    set_amount('#from_currency', from_currency);
+    set_from_amount(from_currency);
     if (to_currency == from_currency) {
         if (from_currency == 0) {
             to_currency = 1;
@@ -17,13 +35,12 @@ async function from_cur_handler() {
         }
         $("#to_cur_" + to_currency).prop('checked', true);
     }
-    set_amount('#to_currency', to_currency);
+    set_to_amount();
 }
 
 async function to_cur_handler() {
     from_currency = $('input[type=radio][name=from_cur]:checked').val();
     to_currency = $('input[type=radio][name=to_cur]:checked').val();
-    set_amount('#to_currency', to_currency);
     if (to_currency == from_currency) {
         if (to_currency == 0) {
             from_currency = 1;
@@ -31,8 +48,9 @@ async function to_cur_handler() {
             from_currency = 0;
         }
         $("#from_cur_" + from_currency).prop('checked', true);
+        set_from_amount(from_currency);
     }
-    set_amount('#from_currency', from_currency);
+    set_to_amount();
 }
 
 async function init_ui() {
@@ -41,6 +59,9 @@ async function init_ui() {
 
     $("#from_cur_0").attr('checked', true);
     $("#to_cur_1").attr('checked', true);
+
+    $('#from_currency').on('input', set_to_amount);
+    $('#from_currency').click(function() {this.select()});
 
     await from_cur_handler();
 }
