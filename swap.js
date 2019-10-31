@@ -54,6 +54,16 @@ async function to_cur_handler() {
 }
 
 async function handle_trade() {
+    var i = from_currency;
+    var j = to_currency;
+    var b = (await swap.balances(i)).toNumber();
+    if (b >= 1e8) {
+        var dx = Math.floor($('#from_currency').val() * 1e18);
+        var min_dy = Math.floor($('#to_currency').val() * 0.95e18);
+        var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
+
+        await swap.exchange(i, j, dx, min_dy, deadline);
+    }
 }
 
 async function init_ui() {
