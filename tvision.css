@@ -221,3 +221,13 @@ div.add-liquidity input {
 
 strong:before, strong:after { content: "*"; }
 i:before, i:after { content: "/"; }
+
+.trade-buttons {
+    text-align: center;
+    padding-top: 7.5em;
+}
+
+#chart {
+    background-color: white;
+    border: 1px solid gray;
+}

@@ -53,6 +53,9 @@ async function to_cur_handler() {
     set_to_amount();
 }
 
+async function handle_trade() {
+}
+
 async function init_ui() {
     $('input[type=radio][name=from_cur]').change(from_cur_handler);
     $('input[type=radio][name=to_cur]').change(to_cur_handler);
@@ -62,6 +65,8 @@ async function init_ui() {
 
     $('#from_currency').on('input', set_to_amount);
     $('#from_currency').click(function() {this.select()});
+
+    $("#trade").click(handle_trade);
 
     await from_cur_handler();
 }
