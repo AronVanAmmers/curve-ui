@@ -47,6 +47,7 @@ async function init_ui() {
 
 window.addEventListener('load', async () => {
     init_menu();
+    init_chart();
 
     if (window.ethereum) {
         window.web3 = new Web3(ethereum);
