@@ -16,7 +16,7 @@ async function set_to_amount() {
     var b = (await swap.balances(i)).toNumber();
     if (b >= 1e8) {
         var dx = $('#from_currency').val() * 1e18;
-        var dy = ((await swap.get_dy(i, j, dx)).toNumber() / 1e18).toFixed(18);
+        var dy = ((await swap.get_dy(i, j, dx)).toNumber() / 1e18 * (1 - fee)).toFixed(18);
         $('#to_currency').val(dy);
     }
     else
@@ -64,7 +64,6 @@ async function handle_trade() {
 
         await swap.exchange(i, j, dx, min_dy, deadline);
     }
-    update_fee_info();
 }
 
 async function init_ui() {
@@ -79,8 +78,8 @@ async function init_ui() {
 
     $("#trade").click(handle_trade);
 
+    await update_fee_info();
     from_cur_handler();
-    update_fee_info();
 }
 
 window.addEventListener('load', async () => {
