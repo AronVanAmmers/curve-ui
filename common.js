@@ -71,3 +71,15 @@ function init_menu() {
             el.classList.add('selected')
     })
 }
+
+async function update_fee_info() {
+    var bal_info = $('#balances-info li span');
+    for (let i = 0; i < N_COINS; i++) {
+        balances[i] = (await swap.balances(i)).toNumber();
+        $(bal_info[i]).text((balances[i] / 1e18).toFixed(2));
+    }
+    var fee = ((await swap.fee()).toNumber() / 1e8).toFixed(3);
+    var admin_fee = ((await swap.admin_fee()).toNumber() / 1e8 * fee).toFixed(3);
+    $('#fee-info').text(fee);
+    $('#admin-fee-info').text(admin_fee);
+}

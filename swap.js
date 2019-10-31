@@ -64,6 +64,7 @@ async function handle_trade() {
 
         await swap.exchange(i, j, dx, min_dy, deadline);
     }
+    update_fee_info();
 }
 
 async function init_ui() {
@@ -78,7 +79,8 @@ async function init_ui() {
 
     $("#trade").click(handle_trade);
 
-    await from_cur_handler();
+    from_cur_handler();
+    update_fee_info();
 }
 
 window.addEventListener('load', async () => {

@@ -67,6 +67,7 @@ async function handle_remove_liquidity() {
     }
 
     await update_balances();
+    update_fee_info();
 }
 
 function init_ui() {
@@ -78,6 +79,7 @@ function init_ui() {
     $('#liquidity-share').on('input', handle_change_share);
 
     handle_change_share();
+    update_fee_info();
 
     $("#remove-liquidity").click(handle_remove_liquidity);
 }

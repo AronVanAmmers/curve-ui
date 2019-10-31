@@ -24,10 +24,11 @@ async function handle_sync_balances() {
 async function handle_add_liquidity() {
     var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
     amounts = amounts.map(x => x * 1e18);
-    var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
     await ensure_allowance();
+    var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
     await swap.add_liquidity(amounts, deadline);
     await handle_sync_balances();
+    update_fee_info();
 }
 
 function init_ui() {
@@ -74,6 +75,7 @@ window.addEventListener('load', async () => {
         await ethereum.enable();
         await init_contracts();
         init_ui();
+        update_fee_info();
         await handle_sync_balances();
     }
 });
