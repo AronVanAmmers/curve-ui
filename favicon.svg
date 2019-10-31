@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
-   sodipodi:docname="favicon.svg">
+   sodipodi:docname="favicon.svg"
+   inkscape:export-filename="/home/michwill/favicon.png"
+   inkscape:export-xdpi="37.549999"
+   inkscape:export-ydpi="37.549999">
   <defs
      id="defs2">
     <marker
@@ -160,7 +163,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -176,29 +179,29 @@
        cy="28.447914"
        r="14.552083" />
     <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffc843;stroke-width:2.46499991;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2014);paint-order:normal"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffc843;stroke-width:2.86500001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2014);paint-order:normal"
        id="path1654"
        sodipodi:type="arc"
-       sodipodi:cx="30.056034"
-       sodipodi:cy="20.02323"
+       sodipodi:cx="30.224079"
+       sodipodi:cy="20.493929"
        sodipodi:rx="7.2760415"
        sodipodi:ry="7.2760415"
        sodipodi:start="0"
        sodipodi:end="2.3038346"
-       d="m 37.332076,20.02323 a 7.2760415,7.2760415 0 0 1 -4.316609,6.646994 7.2760415,7.2760415 0 0 1 -7.828055,-1.239842"
+       d="m 37.500121,20.493929 a 7.2760415,7.2760415 0 0 1 -4.316609,6.646995 7.2760415,7.2760415 0 0 1 -7.828055,-1.239842"
        sodipodi:open="true"
        transform="rotate(19.647129)" />
     <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffc843;stroke-width:2.46499991;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2014-5);paint-order:normal"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ffc843;stroke-width:2.86500001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#marker2014-5);paint-order:normal"
        id="path1654-5"
        sodipodi:type="arc"
-       sodipodi:cx="-29.285738"
-       sodipodi:cy="-19.098137"
+       sodipodi:cx="-29.117504"
+       sodipodi:cy="-18.626911"
        sodipodi:rx="7.2760415"
        sodipodi:ry="7.2760415"
        sodipodi:start="0"
        sodipodi:end="2.3038346"
-       d="m -22.009696,-19.098137 a 7.2760415,7.2760415 0 0 1 -4.316609,6.646995 7.2760415,7.2760415 0 0 1 -7.828055,-1.239842"
+       d="m -21.841463,-18.626911 a 7.2760415,7.2760415 0 0 1 -4.316608,6.646994 7.2760415,7.2760415 0 0 1 -7.828055,-1.239842"
        sodipodi:open="true"
        transform="rotate(-160.35287)" />
   </g>
