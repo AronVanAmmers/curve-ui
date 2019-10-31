@@ -74,7 +74,7 @@
     <script>
     var options = {
       chart: {
-        height: 350,
+        height: 200,
         type: 'candlestick',
       },
       series: [{
@@ -84,9 +84,9 @@
         type: 'datetime'
       },
       yaxis: {
-        tooltip: {
-          enabled: true
-        }
+          tooltip: {
+              enabled: true
+          },
       }
     }
 
@@ -106,7 +106,9 @@
         }
         var h = options.yaxis.max - options.yaxis.min;
         options.yaxis.min -= h / 3;
+        options.yaxis.min = Math.floor(options.yaxis.min * 500) / 500;
         options.yaxis.max += h / 3;
+        options.yaxis.max = Math.ceil(options.yaxis.max * 500) / 500;
 
         var chart = new ApexCharts(
           document.querySelector("#chart"),
