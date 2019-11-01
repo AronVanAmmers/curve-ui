@@ -26,7 +26,8 @@ async function handle_add_liquidity() {
     amounts = amounts.map(x => x * 1e18);
     await ensure_allowance();
     var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-    await swap.add_liquidity(amounts, deadline);
+    var txhash = await swap.add_liquidity(amounts, deadline);
+    await w3.eth.waitForReceipt(txhash);
     await handle_sync_balances();
     update_fee_info();
 }
