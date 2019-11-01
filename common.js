@@ -39,7 +39,24 @@ const proxiedWeb3Handler = {
   },
 };
 
-const w3 = new Proxy(web3, proxiedWeb3Handler);
+function waitForReceipt(hash, cb) {
+    web3.eth.getTransactionReceipt(hash, function (err, receipt) {
+        if (err)
+            throw(err);
+
+        if (receipt !== null)
+        {
+            if (cb)
+                cb(null, receipt);
+        }
+        else
+        {
+            setTimeout(function () {waitForReceipt(hash, cb)}, 1000);
+        }
+  });
+}
+
+var w3;
 /**************************************************/
 
 async function ensure_allowance() {
@@ -55,6 +72,9 @@ async function ensure_token_allowance() {
 
 
 async function init_contracts() {
+    web3.eth.waitForReceipt = waitForReceipt;
+    w3 = new Proxy(web3, proxiedWeb3Handler);
+
     var SwapContract = web3.eth.contract(swap_abi);
     ERC20Contract = web3.eth.contract(ERC20_abi);
 

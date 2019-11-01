@@ -62,7 +62,10 @@ async function handle_trade() {
         var min_dy = Math.floor($('#to_currency').val() * 0.95e18);
         var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
 
-        await swap.exchange(i, j, dx, min_dy, deadline);
+        var txhash = await swap.exchange(i, j, dx, min_dy, deadline);
+        await w3.eth.waitForReceipt(txhash);
+        await update_fee_info();
+        from_cur_handler();
     }
 }
 
