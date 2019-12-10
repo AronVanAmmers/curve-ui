@@ -1,6 +1,6 @@
 var N_COINS = 3;
-var swap_address = '0x62CCe5f24469aDEE09372b2F79Ba02cD29568E3E';
-var token_address = '0x76A99795824c0200A3CE98fEab65f1228b1786D2';
+var swap_address = '0x45E5e9CB5b31c98F2d6CD609A0217B5313e0CaD5';
+var token_address = '0x68b74dB7b99e99b137d816349BeBf41B1089Bc11';
 
 var swap_abi = [
  {
