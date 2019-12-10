@@ -1,22 +1,6 @@
-/*
-Transferring 0x56d2db61a231Ff20f38C42416bF914ab410DcEB5 to 0x08A9bC278d07FF55A344e9ED57cB57594e9ea9dF
-Transferring 0x56d2db61a231Ff20f38C42416bF914ab410DcEB5 to 0x07Aae93f2182e43245Fd35d709d9F8F69aaE4EDD
-Transferring 0xE5BAB8105eb80C5CA757966f0CE480B1F61Dc92D to 0x08A9bC278d07FF55A344e9ED57cB57594e9ea9dF
-Transferring 0xE5BAB8105eb80C5CA757966f0CE480B1F61Dc92D to 0x07Aae93f2182e43245Fd35d709d9F8F69aaE4EDD
-Transferring 0x91ab143ace9Ce0a253baa79Ab176a55Ad3F194d0 to 0x08A9bC278d07FF55A344e9ED57cB57594e9ea9dF
-Transferring 0x91ab143ace9Ce0a253baa79Ab176a55Ad3F194d0 to 0x07Aae93f2182e43245Fd35d709d9F8F69aaE4EDD
-
-In [5]: swap.address
-Out[5]: '0x4bB4aB4d03a52A4c303d1498066907ec616f7C88'
-
-In [6]: token.address
-Out[6]: '0xA3151DaAdFd0231F8567182Dc21b388Cc3A4ec68'
-
- */
-
 var N_COINS = 3;
-var swap_address = '0x4bB4aB4d03a52A4c303d1498066907ec616f7C88';
-var token_address = '0xA3151DaAdFd0231F8567182Dc21b388Cc3A4ec68';
+var swap_address = '0x62CCe5f24469aDEE09372b2F79Ba02cD29568E3E';
+var token_address = '0x76A99795824c0200A3CE98fEab65f1228b1786D2';
 
 var swap_abi = [
  {
@@ -216,7 +200,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 10061853
+  "gas": 3162163
  },
  {
   "name": "get_dy",
@@ -243,7 +227,7 @@ var swap_abi = [
   "constant": true,
   "payable": false,
   "type": "function",
-  "gas": 11131745
+  "gas": 3382809
  },
  {
   "name": "exchange",
@@ -274,7 +258,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 11269726
+  "gas": 3520296
  },
  {
   "name": "remove_liquidity",
@@ -297,7 +281,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 189600
+  "gas": 186429
  },
  {
   "name": "remove_liquidity_imbalance",
@@ -316,7 +300,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 10171784
+  "gas": 3264362
  },
  {
   "name": "commit_new_parameters",
@@ -338,7 +322,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 144575
+  "gas": 144607
  },
  {
   "name": "apply_new_parameters",
@@ -370,7 +354,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 72920
+  "gas": 72952
  },
  {
   "name": "apply_transfer_ownership",
@@ -397,7 +381,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 13770
+  "gas": 12885
  },
  {
   "name": "coins",
