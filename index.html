@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>StableSwap: stablecoin exchange</title>
+    <title>Stablecoins.exchange :: Compounded</title>
     <link rel="stylesheet" href="tvision.css" />
     <script src="/jquery.min.js"></script>
-    <script src="/abis.js"></script>
-    <script src="/common.js"></script>
-    <script src="/swap.js"></script>
+    <script src="/abis.js?v271219"></script>
+    <script src="/common.js?v271219"></script>
+    <script src="/swap.js?v271219"></script>
   </head>
   <body>
     <div class="top-menu-bar">
@@ -18,7 +18,7 @@
     </div>
     <div id="screen">
         <div class="blue window">
-            <h1>StableSwap: stablecoin exchange</h1>
+            <h1>Stablecoins.exchange :: Compounded</h1>
         </div>
 
         <div class="window white">
@@ -37,10 +37,6 @@
                             <input type="radio" id="from_cur_1" name="from_cur" value="1">
                             <label for="from_cur_1">USDC</label>
                         </li>
-                        <li>
-                            <input type="radio" id="from_cur_2" name="from_cur" value="2">
-                            <label for="from_cur_2">USDT</label>
-                        </li>
                     </ul>
                 </fieldset>
                 <fieldset style="float: left">
@@ -57,10 +53,6 @@
                             <input type="radio" id="to_cur_1" name="to_cur" value="1">
                             <label for="to_cur_1">USDC</label>
                         </li>
-                        <li>
-                            <input type="radio" id="to_cur_2" name="to_cur" value="2">
-                            <label for="to_cur_2">USDT</label>
-                        </li>
                     </ul>
                 </fieldset>
                 <p class='trade-buttons'>
@@ -75,7 +67,6 @@
         <ul id='balances-info'>
             <li><b>DAI:</b> <span></span></li>
             <li><b>USDC:</b> <span></span></li>
-            <li><b>USDT:</b> <span></span></li>
         </ul>
         <p><b>Fee:</b> <span id='fee-info'></span>%</p>
         <p><b>Admin fee:</b> <span id='admin-fee-info'></span>%</p>
