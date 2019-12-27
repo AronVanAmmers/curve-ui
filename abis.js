@@ -1,4 +1,5 @@
 var N_COINS = 2;
+var coin_precisions = [1e18, 1e6];
 var swap_address = '0x9052720706063c2352B98EB1BDc45D212b292fE2';
 var token_address = '0x092028aACe5A1eA0Ad924Bdbb5f1CB65722b9c79';
 

@@ -4,6 +4,7 @@ var swap_token;
 var ERC20Contract;
 var balances = new Array(N_COINS);
 var wallet_balances = new Array(N_COINS);
+var c_rates = new Array(N_COINS);
 var fee;
 var admin_fee;
 
@@ -77,13 +78,14 @@ async function init_contracts() {
 
     var SwapContract = web3.eth.contract(swap_abi);
     ERC20Contract = web3.eth.contract(ERC20_abi);
+    cERC20Contract = web3.eth.contract(cERC20_abi);
 
     swap = new Proxy(SwapContract.at(swap_address), proxiedWeb3Handler);
     swap_token = new Proxy(ERC20Contract.at(token_address), proxiedWeb3Handler);
 
     for (let i = 0; i < N_COINS; i++) {
         var addr = await swap.coins(i);
-        coins[i] = new Proxy(ERC20Contract.at(addr), proxiedWeb3Handler);
+        coins[i] = new Proxy(cERC20Contract.at(addr), proxiedWeb3Handler);
     }
 }
 
