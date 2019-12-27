@@ -64,6 +64,7 @@ async function ensure_allowance() {
     for (let i = 0; i < N_COINS; i++)
         if ((await coins[i].allowance(web3.eth.defaultAccount, swap_address)).toNumber() < wallet_balances[i])
             await coins[i].approve(swap_address, max_allowance);
+    // TODO: ensure the amounts we actually need, not max
 }
 
 async function ensure_token_allowance() {
@@ -100,7 +101,8 @@ async function update_fee_info() {
     var bal_info = $('#balances-info li span');
     for (let i = 0; i < N_COINS; i++) {
         balances[i] = (await swap.balances(i)).toNumber();
-        $(bal_info[i]).text((balances[i] / 1e18).toFixed(2));
+        c_rates[i] = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
+        $(bal_info[i]).text((balances[i] * c_rates[i]).toFixed(2));
     }
     fee = (await swap.fee()).toNumber() / 1e10;
     admin_fee = (await swap.admin_fee()).toNumber() / 1e10;

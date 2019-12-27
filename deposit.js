@@ -25,7 +25,8 @@ async function handle_sync_balances() {
 
 async function handle_add_liquidity() {
     var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
-    amounts = amounts.map(x => x * 1e18);
+    for (let i = 0; i < N_COINS; i++)
+        amounts[i] = Math.floor(amounts[i] / c_rates[i]); // -> c-tokens
     await ensure_allowance();
     var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
     var txhash = await swap.add_liquidity(amounts, deadline);
