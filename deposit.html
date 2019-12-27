@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>StableSwap: stablecoin exchange</title>
+    <title>Stablecoins.exchange :: Compounded</title>
     <link rel="stylesheet" href="tvision.css" />
     <script src="/jquery.min.js"></script>
-    <script src="/abis.js"></script>
-    <script src="/common.js"></script>
-    <script src="/deposit.js"></script>
+    <script src="/abis.js?v271219"></script>
+    <script src="/common.js?v271219"></script>
+    <script src="/deposit.js?v271219-7"></script>
   </head>
   <body>
     <div class="top-menu-bar">
@@ -18,7 +18,7 @@
     </div>
     <div id="screen">
         <div class="blue window">
-            <h1>StableSwap: stablecoin exchange</h1>
+            <h1>Stablecoins.exchange :: Compounded</h1>
         </div>
 
         <div class="window white add-liquidity">
@@ -26,16 +26,12 @@
                 <legend>Currencies:</legend>
                 <ul>
                     <li>
-                        <label for="currency_0">DAI</label>
+                        <label for="currency_0">cDAI (in DAI)</label>
                         <input type="text" id="currency_0" name="from_cur" value="0.0">
                     </li>
                     <li>
-                        <label for="currency_1">USDC</label>
+                        <label for="currency_1">cUSDC (in USDC)</label>
                         <input type="text" id="currency_1" name="from_cur" value="0.0">
-                    </li>
-                    <li>
-                        <label for="currency_2">USDT</label>
-                        <input type="text" id="currency_2" name="from_cur" value="0.0">
                     </li>
                 </ul>
             </fieldset>
@@ -61,7 +57,6 @@
         <ul id='balances-info'>
             <li><b>DAI:</b> <span></span></li>
             <li><b>USDC:</b> <span></span></li>
-            <li><b>USDT:</b> <span></span></li>
         </ul>
         <p><b>Fee:</b> <span id='fee-info'></span>%</p>
         <p><b>Admin fee:</b> <span id='admin-fee-info'></span>%</p>

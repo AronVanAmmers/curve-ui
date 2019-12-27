@@ -4,13 +4,15 @@ async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
 
-    for (let i = 0; i < N_COINS; i++)
+    for (let i = 0; i < N_COINS; i++) {
+        c_rates[i] = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
         wallet_balances[i] = (await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber();
+    }
 
     if (max_balances) {
         $(".currencies input").prop('disabled', true);
         for (let i = 0; i < N_COINS; i++) {
-            var val = (wallet_balances[i] / 1e18).toFixed(2);
+            var val = (wallet_balances[i] * c_rates[i]).toFixed(2);
             $('#currency_' + i).val(val);
         }
     } else {
@@ -36,7 +38,7 @@ function init_ui() {
     for (let i = 0; i < N_COINS; i++) {
         $('#currency_' + i).on('input', function() {
             var el = $('#currency_' + i);
-            if (this.value * 1e18 > wallet_balances[i])
+            if (this.value > wallet_balances[i] * c_rates[i])
                 el.css('background-color', 'red')
             else
                 el.css('background-color', 'blue');
@@ -44,20 +46,25 @@ function init_ui() {
             if (sync_balances) {
                 for (let j = 0; j < N_COINS; j++)
                     if (j != i) {
-                        if (balances[i] > 1e18) {
-                                var newval = this.value * balances[j] / balances[i];
-                                newval = newval.toFixed(10);
-                                $('#currency_' + j).val(newval);
+                        var el_j = $('#currency_' + j);
+
+                        if (balances[i] * c_rates[i] > 1) {
+                            // proportional
+                            var newval = this.value / c_rates[i] * balances[j] / balances[i];
+                            newval = (newval * c_rates[j]).toFixed(2);
+                            el_j.val(newval);
 
                         } else {
-                            $('#currency_' + j).val(this.value);
+                            // same value as we type
+                            var newval = this.value;
+                            el_j.val(newval);
                         }
 
-                        el = $('#currency_' + j);
-                        if (newval * 1e18 > wallet_balances[j])
-                            el.css('background-color', 'red')
+                        // Balance not enough highlight
+                        if (newval > wallet_balances[j] * c_rates[j])
+                            el_j.css('background-color', 'red')
                         else
-                            el.css('background-color', 'blue');
+                            el_j.css('background-color', 'blue');
                     }
             }
         });
