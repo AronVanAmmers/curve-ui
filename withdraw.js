@@ -43,7 +43,7 @@ function handle_change_share() {
     for (let i = 0; i < N_COINS; i++) {
         var cur = $('#currency_' + i);
         if ((val >=0) & (val <= 100))
-            cur.val((val / 100 * balances[i] * token_balance / token_supply / 1e18).toFixed(2))
+            cur.val((val / 100 * balances[i] * c_rates[i] * token_balance / token_supply).toFixed(2))
         else
             cur.val('0.00');
         cur.css('background-color', '#707070');
@@ -93,6 +93,7 @@ window.addEventListener('load', async () => {
         window.web3 = new Web3(ethereum);
         await ethereum.enable();
         await init_contracts();
+        await update_rates();
         await update_balances();
         init_ui();
     }
