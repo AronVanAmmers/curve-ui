@@ -14,7 +14,7 @@ function handle_change_amounts(i) {
     return function() {
         for (let j = 0; j < N_COINS; j++) {
             var cur = $('#currency_' + j);
-            if ((this.value * 1e18 > wallet_balances[i]) & (j == i))
+            if ((this.value > wallet_balances[i] * c_rates[i]) & (j == i))
                 cur.css('background-color', 'red')
             else
                 cur.css('background-color', 'blue');
