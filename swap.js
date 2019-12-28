@@ -10,6 +10,16 @@ async function set_from_amount(i) {
         );
 }
 
+async function highlight_input() {
+    var el = $('#from_currency');
+    var balance = (await underlying_coins[from_currency].balanceOf(web3.eth.defaultAccount)).toNumber() / coin_precisions[from_currency];
+    console.log(balance, el.val());
+    if (el.val() > balance)
+        el.css('background-color', 'red')
+    else
+        el.css('background-color', 'blue');
+}
+
 async function set_to_amount() {
     var i = from_currency;
     var j = to_currency;
@@ -22,6 +32,7 @@ async function set_to_amount() {
     }
     else
         $('#from_currency').prop('disabled', true);
+    highlight_input();
 }
 
 async function from_cur_handler() {
@@ -84,6 +95,7 @@ async function init_ui() {
 
     await update_fee_info();
     from_cur_handler();
+    $("#from_currency").on("input", highlight_input);
 }
 
 window.addEventListener('load', async () => {
