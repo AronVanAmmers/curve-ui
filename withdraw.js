@@ -55,7 +55,9 @@ async function handle_remove_liquidity() {
     var share = $('#liquidity-share');
     var share_val = share.val();
     var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-    var amounts = $("[id^=currency_]").toArray().map(x => $(x).val() * 1e18);
+    var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
+    for (let i = 0; i < N_COINS; i++)
+        amounts[i] = Math.floor(amounts[i] / c_rates[i]); // -> c-tokens
     var min_amounts = amounts.map(x => (0.97 * x).toFixed());
     var txhash;
     ensure_token_allowance();
