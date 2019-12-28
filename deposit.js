@@ -4,10 +4,10 @@ async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
 
-    for (let i = 0; i < N_COINS; i++) {
-        c_rates[i] = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
+    await update_rates();
+
+    for (let i = 0; i < N_COINS; i++)
         wallet_balances[i] = (await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber();
-    }
 
     if (max_balances) {
         $(".currencies input").prop('disabled', true);

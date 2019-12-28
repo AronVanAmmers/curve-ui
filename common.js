@@ -1,4 +1,5 @@
 var coins = new Array(N_COINS);
+var underlying_coins = new Array(N_COINS);
 var swap;
 var swap_token;
 var ERC20Contract;
@@ -87,6 +88,7 @@ async function init_contracts() {
     for (let i = 0; i < N_COINS; i++) {
         var addr = await swap.coins(i);
         coins[i] = new Proxy(cERC20Contract.at(addr), proxiedWeb3Handler);
+        underlying_coins[i] = new Proxy(ERC20Contract.at(underlying_addrs[i]), proxiedWeb3Handler);
     }
 }
 
@@ -97,11 +99,16 @@ function init_menu() {
     })
 }
 
+async function update_rates() {
+    for (let i = 0; i < N_COINS; i++)
+        c_rates[i] = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
+}
+
 async function update_fee_info() {
     var bal_info = $('#balances-info li span');
+    await update_rates();
     for (let i = 0; i < N_COINS; i++) {
         balances[i] = (await swap.balances(i)).toNumber();
-        c_rates[i] = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
         $(bal_info[i]).text((balances[i] * c_rates[i]).toFixed(2));
     }
     fee = (await swap.fee()).toNumber() / 1e10;

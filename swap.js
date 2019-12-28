@@ -5,18 +5,19 @@ async function set_from_amount(i) {
     var el = $('#from_currency');
     if (el.val() == '')
         $('#from_currency').val(
-            ((await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber() / 1e18
-            ).toFixed(18)
+            ((await underlying_coins[i].balanceOf(web3.eth.defaultAccount)).toNumber() / coin_precisions[i]
+            ).toFixed(2)
         );
 }
 
 async function set_to_amount() {
     var i = from_currency;
     var j = to_currency;
-    var b = (await swap.balances(i)).toNumber();
-    if (b >= 1e8) {
-        var dx = $('#from_currency').val() * 1e18;
-        var dy = ((await swap.get_dy(i, j, dx)).toNumber() / 1e18 * (1 - fee)).toFixed(18);
+    var b = (await swap.balances(i)).toNumber() * c_rates[i];
+    if (b >= 0.001) {
+        // In c-units
+        var dx = Math.floor($('#from_currency').val() / c_rates[i]);
+        var dy = ((await swap.get_dy(i, j, dx)).toNumber() * c_rates[j] * (1 - fee)).toFixed(2);
         $('#to_currency').val(dy);
     }
     else
@@ -26,7 +27,7 @@ async function set_to_amount() {
 async function from_cur_handler() {
     from_currency = $('input[type=radio][name=from_cur]:checked').val();
     to_currency = $('input[type=radio][name=to_cur]:checked').val();
-    set_from_amount(from_currency);
+    await set_from_amount(from_currency);
     if (to_currency == from_currency) {
         if (from_currency == 0) {
             to_currency = 1;
@@ -35,7 +36,7 @@ async function from_cur_handler() {
         }
         $("#to_cur_" + to_currency).prop('checked', true);
     }
-    set_to_amount();
+    await set_to_amount();
 }
 
 async function to_cur_handler() {
@@ -48,9 +49,9 @@ async function to_cur_handler() {
             from_currency = 0;
         }
         $("#from_cur_" + from_currency).prop('checked', true);
-        set_from_amount(from_currency);
+        await set_from_amount(from_currency);
     }
-    set_to_amount();
+    await set_to_amount();
 }
 
 async function handle_trade() {

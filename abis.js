@@ -3,6 +3,8 @@ var coin_precisions = [1e18, 1e6];
 var swap_address = '0x9052720706063c2352B98EB1BDc45D212b292fE2';
 var token_address = '0x092028aACe5A1eA0Ad924Bdbb5f1CB65722b9c79';
 
+var underlying_addrs = ['0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa', '0x4DBCdF9B62e891a7cec5A2568C3F4FAF9E8Abe2b'];
+
 var swap_abi = [
  {
   "name": "TokenExchange",
