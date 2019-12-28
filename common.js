@@ -68,6 +68,12 @@ async function ensure_allowance() {
     // TODO: ensure the amounts we actually need, not max
 }
 
+async function ensure_underlying_allowance(i, amount) {
+    if ((await underlying_coins[i].allowance(web3.eth.defaultAccount, swap_address)).toNumber() < amount)
+        await underlying_coins[i].approve(swap_address, amount);
+    // TODO: ensure the amounts we actually need, not max
+}
+
 async function ensure_token_allowance() {
     if ((await swap_token.allowance(web3.eth.defaultAccount, swap_address)).toNumber() == 0)
         await swap_token.approve(swap_address, max_allowance);

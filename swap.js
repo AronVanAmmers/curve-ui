@@ -57,13 +57,13 @@ async function to_cur_handler() {
 async function handle_trade() {
     var i = from_currency;
     var j = to_currency;
-    var b = (await swap.balances(i)).toNumber();
-    if (b >= 1e8) {
-        var dx = Math.floor($('#from_currency').val() * 1e18);
-        var min_dy = Math.floor($('#to_currency').val() * 0.95e18);
+    var b = (await swap.balances(i)).toNumber() / c_rates[i];
+    if (b >= 0.001) {
+        var dx = Math.floor($('#from_currency').val() * coin_precisions[i]);
+        var min_dy = Math.floor($('#to_currency').val() * 0.95 * coin_precisions[j]);
         var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-
-        var txhash = await swap.exchange(i, j, dx, min_dy, deadline);
+        await ensure_underlying_allowance(i, dx);
+        var txhash = await swap.exchange_underlying(i, j, dx, min_dy, deadline);
         await w3.eth.waitForReceipt(txhash);
         await update_fee_info();
         from_cur_handler();
