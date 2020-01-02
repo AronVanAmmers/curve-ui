@@ -2,18 +2,20 @@ var from_currency;
 var to_currency;
 
 async function set_from_amount(i) {
+    var default_account = (await web3.eth.getAccounts())[0];
     var el = $('#from_currency');
     if (el.val() == '')
         $('#from_currency').val(
             Math.floor(
-                100 * (await underlying_coins[i].balanceOf(web3.eth.defaultAccount)).toNumber() / coin_precisions[i]
+                100 * parseFloat(await underlying_coins[i].methods.balanceOf(default_account).call()) / coin_precisions[i]
             ) / 100
         );
 }
 
 async function highlight_input() {
+    var default_account = (await web3.eth.getAccounts())[0];
     var el = $('#from_currency');
-    var balance = (await underlying_coins[from_currency].balanceOf(web3.eth.defaultAccount)).toNumber() / coin_precisions[from_currency];
+    var balance = parseFloat(await underlying_coins[from_currency].methods.balanceOf(default_account).call()) / coin_precisions[from_currency];
     if (el.val() > balance)
         el.css('background-color', 'red')
     else
@@ -23,11 +25,11 @@ async function highlight_input() {
 async function set_to_amount() {
     var i = from_currency;
     var j = to_currency;
-    var b = (await swap.balances(i)).toNumber() * c_rates[i];
+    var b = parseInt(await swap.methods.balances(i).call()) * c_rates[i];
     if (b >= 0.001) {
         // In c-units
-        var dx = Math.floor($('#from_currency').val() * coin_precisions[i]);
-        var dy = ((await swap.get_dy_underlying(i, j, dx)).toNumber() / coin_precisions[j]).toFixed(2);
+        var dx = BigInt($('#from_currency').val() * coin_precisions[i]).toString();
+        var dy = (parseInt(await swap.methods.get_dy_underlying(i, j, dx).call()) / coin_precisions[j]).toFixed(2);
         $('#to_currency').val(dy);
     }
     else
@@ -66,18 +68,22 @@ async function to_cur_handler() {
 }
 
 async function handle_trade() {
+    var default_account = (await web3.eth.getAccounts())[0];
     var i = from_currency;
     var j = to_currency;
-    var b = (await swap.balances(i)).toNumber() / c_rates[i];
+    var b = parseInt(await swap.methods.balances(i).call()) / c_rates[i];
     if (b >= 0.001) {
         var dx = Math.floor($('#from_currency').val() * coin_precisions[i]);
         var min_dy = Math.floor($('#to_currency').val() * 0.95 * coin_precisions[j]);
         var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-        await ensure_underlying_allowance(i, dx);
-        var txhash = await swap.exchange_underlying(i, j, dx, min_dy, deadline);
-        await w3.eth.waitForReceipt(txhash);
-        await update_fee_info();
-        from_cur_handler();
+        ensure_underlying_allowance(i, dx);
+        dx = BigInt(dx).toString();
+        min_dy = BigInt(min_dy).toString();
+        swap.methods.exchange_underlying(i, j, dx, min_dy, deadline).send({'from': default_account})
+        .on('receipt', async function(receipt) {
+            await update_fee_info();
+            from_cur_handler();
+        });
     }
 }
 

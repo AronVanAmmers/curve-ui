@@ -16,6 +16,7 @@ const max_allowance = 1e9 * 1e18;
 /**************************************************/
 // Convenient way to promisify web3
 // See https://ethereum.stackexchange.com/a/24238
+/*
 const promisify = (inner) =>
   new Promise((resolve, reject) =>
     inner((err, res) => {
@@ -59,43 +60,40 @@ function waitForReceipt(hash, cb) {
 }
 
 var w3;
+*/
 /**************************************************/
 
 async function ensure_allowance() {
+    var default_account = (await web3.eth.getAccounts())[0];
     for (let i = 0; i < N_COINS; i++)
-        if ((await coins[i].allowance(web3.eth.defaultAccount, swap_address)).toNumber() < wallet_balances[i])
-            await coins[i].approve(swap_address, max_allowance);
+        if (parseInt(await coins[i].methods.allowance(default_account, swap_address).call()) < wallet_balances[i])
+            await coins[i].methods.approve(swap_address, BigInt(max_allowance).toString()).send({'from': default_account});
     // TODO: ensure the amounts we actually need, not max
 }
 
 async function ensure_underlying_allowance(i, amount) {
-    if ((await underlying_coins[i].allowance(web3.eth.defaultAccount, swap_address)).toNumber() < amount)
-        await underlying_coins[i].approve(swap_address, amount);
-    // TODO: ensure the amounts we actually need, not max
+    var default_account = (await web3.eth.getAccounts())[0];
+    if (parseInt(await underlying_coins[i].methods.allowance(default_account, swap_address).call()) < amount)
+        await underlying_coins[i].methods.approve(swap_address, BigInt(amount).toString()).send({'from': default_account});
 }
 
 async function ensure_token_allowance() {
-    if ((await swap_token.allowance(web3.eth.defaultAccount, swap_address)).toNumber() == 0)
-        await swap_token.approve(swap_address, max_allowance);
+    var default_account = (await web3.eth.getAccounts())[0];
+    if (parseInt(await swap_token.methods.allowance(default_account, swap_address)) == 0)
+        await swap_token.methods.approve(swap_address, BigInt(max_allowance).toString()).send({'from': default_account});
+    // TODO: ensure the amounts we actually need, not max
 }
 
 
 async function init_contracts() {
-    web3.eth.waitForReceipt = waitForReceipt;
-    w3 = new Proxy(web3, proxiedWeb3Handler);
-
-    var SwapContract = web3.eth.contract(swap_abi);
-    ERC20Contract = web3.eth.contract(ERC20_abi);
-    cERC20Contract = web3.eth.contract(cERC20_abi);
-
-    swap = new Proxy(SwapContract.at(swap_address), proxiedWeb3Handler);
-    swap_token = new Proxy(ERC20Contract.at(token_address), proxiedWeb3Handler);
+    swap = new web3.eth.Contract(swap_abi, swap_address);
+    swap_token = new web3.eth.Contract(ERC20_abi, token_address);
 
     for (let i = 0; i < N_COINS; i++) {
-        var addr = await swap.coins(i);
-        coins[i] = new Proxy(cERC20Contract.at(addr), proxiedWeb3Handler);
-        var underlying_addr = await swap.underlying_coins(i);
-        underlying_coins[i] = new Proxy(ERC20Contract.at(underlying_addr), proxiedWeb3Handler);
+        var addr = await swap.methods.coins(i).call();
+        coins[i] = new web3.eth.Contract(cERC20_abi, addr);
+        var underlying_addr = await swap.methods.underlying_coins(i).call();
+        underlying_coins[i] = new web3.eth.Contract(ERC20_abi, underlying_addr);
     }
 }
 
@@ -114,10 +112,10 @@ async function update_rates() {
         old_block: uint256 = cERC20(self.coins[i]).accrualBlockNumber()
         rate += rate * supply_rate * (block.number - old_block) / 10 ** 18
         */
-        var rate = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
-        var supply_rate = (await coins[i].supplyRatePerBlock()).toNumber();
-        var old_block = (await coins[i].accrualBlockNumber()).toNumber();
-        var block = await w3.eth.getBlockNumber();
+        var rate = parseInt(await coins[i].methods.exchangeRateStored().call()) / 1e18 / coin_precisions[i];
+        var supply_rate = parseInt(await coins[i].methods.supplyRatePerBlock().call());
+        var old_block = parseInt(await coins[i].methods.accrualBlockNumber().call());
+        var block = await web3.eth.getBlockNumber();
         c_rates[i] = rate * (1 + supply_rate * (block - old_block) / 1e18);
     }
 }
@@ -126,11 +124,11 @@ async function update_fee_info() {
     var bal_info = $('#balances-info li span');
     await update_rates();
     for (let i = 0; i < N_COINS; i++) {
-        balances[i] = (await swap.balances(i)).toNumber();
+        balances[i] = parseInt(await swap.methods.balances(i).call());
         $(bal_info[i]).text((balances[i] * c_rates[i]).toFixed(2));
     }
-    fee = (await swap.fee()).toNumber() / 1e10;
-    admin_fee = (await swap.admin_fee()).toNumber() / 1e10;
+    fee = parseInt(await swap.methods.fee().call()) / 1e10;
+    admin_fee = parseInt(await swap.methods.admin_fee().call()) / 1e10;
     $('#fee-info').text((fee * 100).toFixed(3));
     $('#admin-fee-info').text((admin_fee * 100).toFixed(3));
 }
