@@ -79,11 +79,9 @@ async function handle_trade() {
         ensure_underlying_allowance(i, dx);
         dx = BigInt(dx).toString();
         min_dy = BigInt(min_dy).toString();
-        swap.methods.exchange_underlying(i, j, dx, min_dy, deadline).send({'from': default_account})
-        .on('receipt', async function(receipt) {
-            await update_fee_info();
-            from_cur_handler();
-        });
+        await swap.methods.exchange_underlying(i, j, dx, min_dy, deadline).send({'from': default_account});
+        await update_fee_info();
+        from_cur_handler();
     }
 }
 
