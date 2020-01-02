@@ -3,11 +3,12 @@ var sync_balances;
 async function handle_sync_balances() {
     sync_balances = $('#sync-balances').prop('checked');
     var max_balances = $('#max-balances').prop('checked');
+    var default_account = (await web3.eth.getAccounts())[0];
 
     await update_rates();
 
     for (let i = 0; i < N_COINS; i++)
-        wallet_balances[i] = (await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber();
+        wallet_balances[i] = parseInt(await coins[i].methods.balanceOf(default_account).call());
 
     if (max_balances) {
         $(".currencies input").prop('disabled', true);
@@ -20,17 +21,17 @@ async function handle_sync_balances() {
     }
 
     for (let i = 0; i < N_COINS; i++)
-        balances[i] = (await swap.balances(i)).toNumber();
+        balances[i] = parseInt(await swap.methods.balances(i).call());
 }
 
 async function handle_add_liquidity() {
+    var default_account = (await web3.eth.getAccounts())[0];
     var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
     for (let i = 0; i < N_COINS; i++)
         amounts[i] = Math.floor(amounts[i] / c_rates[i]); // -> c-tokens
-    await ensure_allowance();
+    ensure_allowance();
     var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-    var txhash = await swap.add_liquidity(amounts, deadline);
-    await w3.eth.waitForReceipt(txhash);
+    await swap.methods.add_liquidity(amounts, deadline).send({'from': default_account});
     await handle_sync_balances();
     update_fee_info();
 }
