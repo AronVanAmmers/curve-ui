@@ -2,12 +2,13 @@ var token_balance;
 var token_supply;
 
 async function update_balances() {
+    var default_account = (await web3.eth.getAccounts())[0];
     for (let i = 0; i < N_COINS; i++)
-        wallet_balances[i] = (await coins[i].balanceOf(web3.eth.defaultAccount)).toNumber();
+        wallet_balances[i] = parseInt(await coins[i].methods.balanceOf(default_account).call());
     for (let i = 0; i < N_COINS; i++)
-        balances[i] = (await swap.balances(i)).toNumber();
-    token_balance = (await swap_token.balanceOf(web3.eth.defaultAccount)).toNumber();
-    token_supply = (await swap_token.totalSupply()).toNumber();
+        balances[i] = parseInt(await swap.methods.balances(i).call());
+    token_balance = parseInt(await swap_token.methods.balanceOf(default_account).call());
+    token_supply = parseInt(await swap_token.methods.totalSupply().call());
 }
 
 function handle_change_amounts(i) {
@@ -58,17 +59,18 @@ async function handle_remove_liquidity() {
     var amounts = $("[id^=currency_]").toArray().map(x => $(x).val());
     for (let i = 0; i < N_COINS; i++)
         amounts[i] = Math.floor(amounts[i] / c_rates[i]); // -> c-tokens
-    var min_amounts = amounts.map(x => (0.97 * x).toFixed());
+    var min_amounts = amounts.map(x => BigInt(Math.floor(0.97 * x)).toString());
+    amount = amounts.map(x => BigInt(x).toString());
     var txhash;
+    var default_account = (await web3.eth.getAccounts())[0];
     ensure_token_allowance();
     if (share_val == '---') {
-        txhash = await swap.remove_liquidity_imbalance(amounts, deadline);
+        await swap.methods.remove_liquidity_imbalance(amounts, deadline).send({'from': default_account});
     }
     else {
-        var amount = Math.floor(share_val / 100 * token_balance);
-        txhash = await swap.remove_liquidity(amount, deadline, min_amounts);
+        var amount = BigInt(Math.floor(share_val / 100 * token_balance)).toString();
+        await swap.methods.remove_liquidity(amount, deadline, min_amounts).send({'from': default_account});
     }
-    await w3.eth.waitForReceipt(txhash);
 
     await update_balances();
     update_fee_info();
