@@ -25,8 +25,8 @@ async function set_to_amount() {
     var b = (await swap.balances(i)).toNumber() * c_rates[i];
     if (b >= 0.001) {
         // In c-units
-        var dx = Math.floor($('#from_currency').val() / c_rates[i]);
-        var dy = ((await swap.get_dy(i, j, dx)).toNumber() * c_rates[j] * (1 - fee)).toFixed(2);
+        var dx = Math.floor($('#from_currency').val() * coin_precisions[i]);
+        var dy = ((await swap.get_dy_underlying(i, j, dx)).toNumber() / coin_precisions[j]).toFixed(2);
         $('#to_currency').val(dy);
     }
     else
