@@ -67,7 +67,7 @@ async function ensure_allowance() {
     var default_account = (await web3.eth.getAccounts())[0];
     for (let i = 0; i < N_COINS; i++)
         if (parseInt(await coins[i].methods.allowance(default_account, swap_address).call()) < wallet_balances[i])
-            await coins[i].methods.approve(swap_address, BigInt(max_allowance).toString()).send({'from': default_account});
+            coins[i].methods.approve(swap_address, BigInt(max_allowance).toString()).send({'from': default_account});
     // TODO: ensure the amounts we actually need, not max
 }
 
