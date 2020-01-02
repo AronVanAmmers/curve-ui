@@ -107,8 +107,19 @@ function init_menu() {
 }
 
 async function update_rates() {
-    for (let i = 0; i < N_COINS; i++)
-        c_rates[i] = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
+    for (let i = 0; i < N_COINS; i++) {
+        /*
+        rate: uint256 = cERC20(self.coins[i]).exchangeRateStored()
+        supply_rate: uint256 = cERC20(self.coins[i]).supplyRatePerBlock()
+        old_block: uint256 = cERC20(self.coins[i]).accrualBlockNumber()
+        rate += rate * supply_rate * (block.number - old_block) / 10 ** 18
+        */
+        var rate = (await coins[i].exchangeRateStored()).toNumber() / 1e18 / coin_precisions[i];
+        var supply_rate = (await coins[i].supplyRatePerBlock()).toNumber();
+        var old_block = (await coins[i].accrualBlockNumber()).toNumber();
+        var block = await w3.eth.getBlockNumber();
+        c_rates[i] = rate * (1 + supply_rate * (block - old_block) / 1e18);
+    }
 }
 
 async function update_fee_info() {
