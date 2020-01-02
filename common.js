@@ -94,7 +94,8 @@ async function init_contracts() {
     for (let i = 0; i < N_COINS; i++) {
         var addr = await swap.coins(i);
         coins[i] = new Proxy(cERC20Contract.at(addr), proxiedWeb3Handler);
-        underlying_coins[i] = new Proxy(ERC20Contract.at(underlying_addrs[i]), proxiedWeb3Handler);
+        var underlying_addr = await swap.underlying_coins(i);
+        underlying_coins[i] = new Proxy(ERC20Contract.at(underlying_addr), proxiedWeb3Handler);
     }
 }
 
