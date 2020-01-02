@@ -12,7 +12,7 @@ async function handle_sync_balances() {
     if (max_balances) {
         $(".currencies input").prop('disabled', true);
         for (let i = 0; i < N_COINS; i++) {
-            var val = (wallet_balances[i] * c_rates[i]).toFixed(2);
+            var val = Math.floor(wallet_balances[i] * c_rates[i] * 100) / 100;
             $('#currency_' + i).val(val);
         }
     } else {
@@ -52,7 +52,7 @@ function init_ui() {
                         if (balances[i] * c_rates[i] > 1) {
                             // proportional
                             var newval = this.value / c_rates[i] * balances[j] / balances[i];
-                            newval = (newval * c_rates[j]).toFixed(2);
+                            newval = Math.floor(newval * c_rates[j] * 100) / 100;
                             el_j.val(newval);
 
                         } else {

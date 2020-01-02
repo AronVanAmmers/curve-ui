@@ -5,8 +5,9 @@ async function set_from_amount(i) {
     var el = $('#from_currency');
     if (el.val() == '')
         $('#from_currency').val(
-            ((await underlying_coins[i].balanceOf(web3.eth.defaultAccount)).toNumber() / coin_precisions[i]
-            ).toFixed(2)
+            Math.floor(
+                100 * (await underlying_coins[i].balanceOf(web3.eth.defaultAccount)).toNumber() / coin_precisions[i]
+            ) / 100
         );
 }
 

@@ -65,7 +65,7 @@ async function handle_remove_liquidity() {
         txhash = await swap.remove_liquidity_imbalance(amounts, deadline);
     }
     else {
-        var amount = (share_val / 100 * token_balance).toFixed();
+        var amount = Math.floor(share_val / 100 * token_balance);
         txhash = await swap.remove_liquidity(amount, deadline, min_amounts);
     }
     await w3.eth.waitForReceipt(txhash);
