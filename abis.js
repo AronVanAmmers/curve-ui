@@ -1,7 +1,7 @@
 var N_COINS = 2;
 var coin_precisions = [1e18, 1e6];
-var swap_address = '0xDf6FFDbc744FB961B1685D4c4CA76518396ac4b0';
-var token_address = '0x5db4146Cb173C3e84861a6A19F9652707964b4A8';
+var swap_address = '0xe5FdBab9Ad428bBB469Dee4CB6608C0a8895CbA5';
+var token_address = '0xDBe281E17540Da5305Eb2AeFB8CeF70E6dB1A0A9';
 
 var swap_abi = [
  {
