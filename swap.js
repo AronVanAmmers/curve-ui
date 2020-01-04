@@ -76,7 +76,7 @@ async function handle_trade() {
         var dx = Math.floor($('#from_currency').val() * coin_precisions[i]);
         var min_dy = Math.floor($('#to_currency').val() * 0.95 * coin_precisions[j]);
         var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-        ensure_underlying_allowance(i, dx);
+        await ensure_underlying_allowance(i, 0);
         dx = BigInt(dx).toString();
         min_dy = BigInt(min_dy).toString();
         await swap.methods.exchange_underlying(i, j, dx, min_dy, deadline).send({'from': default_account});

@@ -63,12 +63,14 @@ async function handle_remove_liquidity() {
     amount = amounts.map(x => BigInt(x).toString());
     var txhash;
     var default_account = (await web3.eth.getAccounts())[0];
-    ensure_token_allowance();
+    await ensure_token_allowance();
     if (share_val == '---') {
         await swap.methods.remove_liquidity_imbalance(amounts, deadline).send({'from': default_account});
     }
     else {
         var amount = BigInt(Math.floor(share_val / 100 * token_balance)).toString();
+        if (share_val == 100)
+            amount = await swap_token.methods.balanceOf(default_account).call();
         await swap.methods.remove_liquidity(amount, deadline, min_amounts).send({'from': default_account});
     }
 
