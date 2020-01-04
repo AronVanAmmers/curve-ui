@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Stablecoins.exchange :: Compounded</title>
-    <link rel="stylesheet" href="tvision.css" />
+    <link rel="stylesheet" href="tvision.css?v04012020_5" />
     <script src="/jquery.min.js"></script>
     <script src="/web3.min.js"></script>
     <script src="/abis.js?v02012020_3"></script>
-    <script src="/common.js?v04012020_5"></script>
+    <script src="/common.js?v04012020_6"></script>
     <script src="/withdraw.js?v04012020_5"></script>
   </head>
   <body>
@@ -51,14 +51,27 @@
         </div>
     </div>
 
-    <div class="blue window half-width">
-        <h4>Currency reserves:</h4>
-        <ul id='balances-info'>
-            <li><b>DAI:</b> <span></span></li>
-            <li><b>USDC:</b> <span></span></li>
-        </ul>
-        <p><b>Fee:</b> <span id='fee-info'></span>%</p>
-        <p><b>Admin fee:</b> <span id='admin-fee-info'></span>%</p>
+    <div class="blue window half-width info">
+        <table>
+            <tr>
+                <td>
+                    <h4>Currency reserves:</h4>
+                    <ul id='balances-info'>
+                        <li><b>DAI:</b> <span></span></li>
+                        <li><b>USDC:</b> <span></span></li>
+                    </ul>
+                    <p><b>Fee:</b> <span id='fee-info'></span>%</p>
+                    <p><b>Admin fee:</b> <span id='admin-fee-info'></span>%</p>
+                </td>
+                <td id="lp-info-container">
+                    <h4>My share:</h4>
+                    <ul id='lp-info'>
+                        <li><b>DAI:</b> <span></span></li>
+                        <li><b>USDC:</b> <span></span></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
     </div>
 
   </body>

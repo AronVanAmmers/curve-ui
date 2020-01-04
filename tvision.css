@@ -240,3 +240,15 @@ p.exchange-rate {
     color: #006000;
     font-weight: bold;
 }
+
+div.info table {
+    width: 100%;
+}
+
+div.info table td {
+    vertical-align: top;
+}
+
+#lp-info-container {
+    display: none;
+}
