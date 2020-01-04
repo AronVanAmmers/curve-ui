@@ -9,7 +9,7 @@ var c_rates = new Array(N_COINS);
 var fee;
 var admin_fee;
 
-const trade_timeout = 600;
+const trade_timeout = 1800;
 const max_allowance = 1e9 * 1e18;
 
 
@@ -71,15 +71,19 @@ async function ensure_allowance() {
     // TODO: ensure the amounts we actually need, not max
 }
 
-async function ensure_underlying_allowance(i, amount) {
+async function ensure_underlying_allowance(i, _amount) {
     var default_account = (await web3.eth.getAccounts())[0];
+    if (_amount == 0)
+        var amount = max_allowance
+    else
+        var amount = _amount;
     if (parseInt(await underlying_coins[i].methods.allowance(default_account, swap_address).call()) < amount)
         await underlying_coins[i].methods.approve(swap_address, BigInt(amount).toString()).send({'from': default_account});
 }
 
 async function ensure_token_allowance() {
     var default_account = (await web3.eth.getAccounts())[0];
-    if (parseInt(await swap_token.methods.allowance(default_account, swap_address)) == 0)
+    if (parseInt(await swap_token.methods.allowance(default_account, swap_address).call()) == 0)
         await swap_token.methods.approve(swap_address, BigInt(max_allowance).toString()).send({'from': default_account});
     // TODO: ensure the amounts we actually need, not max
 }
