@@ -224,10 +224,19 @@ i:before, i:after { content: "/"; }
 
 .trade-buttons {
     text-align: center;
-    padding-top: 7.5em;
 }
 
 #chart {
     background-color: white;
     border: 1px solid gray;
+}
+
+p.exchange-rate {
+    text-align: right;
+    padding-right: 0.5em;
+}
+
+#exchange-rate {
+    color: #006000;
+    font-weight: bold;
 }

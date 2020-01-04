@@ -28,9 +28,12 @@ async function set_to_amount() {
     var b = parseInt(await swap.methods.balances(i).call()) * c_rates[i];
     if (b >= 0.001) {
         // In c-units
-        var dx = BigInt($('#from_currency').val() * coin_precisions[i]).toString();
-        var dy = (parseInt(await swap.methods.get_dy_underlying(i, j, dx).call()) / coin_precisions[j]).toFixed(2);
+        var dx_ = $('#from_currency').val();
+        var dx = BigInt(dx_ * coin_precisions[i]).toString();
+        var dy_ = parseInt(await swap.methods.get_dy_underlying(i, j, dx).call()) / coin_precisions[j];
+        var dy = dy_.toFixed(2);
         $('#to_currency').val(dy);
+        $('#exchange-rate').text((dy_ / dx_).toFixed(4));
     }
     else
         $('#from_currency').prop('disabled', true);
