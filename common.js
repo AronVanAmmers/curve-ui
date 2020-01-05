@@ -56,6 +56,13 @@ async function ensure_token_allowance() {
 
 
 async function init_contracts() {
+    web3.eth.net.getId((err, result) => {
+        if (result == 1)
+            $('#error-window').hide();
+        else
+            $('#error-window').show();
+    });
+
     swap = new web3.eth.Contract(swap_abi, swap_address);
     swap_token = new web3.eth.Contract(ERC20_abi, token_address);
 
