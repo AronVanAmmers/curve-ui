@@ -57,10 +57,19 @@ async function ensure_token_allowance() {
 
 async function init_contracts() {
     web3.eth.net.getId((err, result) => {
-        if (result == 1)
-            $('#error-window').hide();
+        if (result == 1) {
+            if (web3.currentProvider.constructor.name == 's') {
+                $('#error-window').text('Error: please use Metamask to do transactions');
+                $('#error-window').show();
+            }
+            else
+                $('#error-window').hide();
+        }
         else
+        {
+            $('#error-window').text('Error: wrong network type. Please switch to mainnet');
             $('#error-window').show();
+        }
     });
 
     swap = new web3.eth.Contract(swap_abi, swap_address);
@@ -110,14 +119,16 @@ async function update_fee_info() {
     $('#admin-fee-info').text((admin_fee * 100).toFixed(3));
 
     var default_account = (await web3.eth.getAccounts())[0];
-    var token_balance = parseInt(await swap_token.methods.balanceOf(default_account).call());
-    if (token_balance > 0) {
-        var token_supply = parseInt(await swap_token.methods.totalSupply().call());
-        var l_info = $('#lp-info li span');
-        $('#lp-info-container').show();
-        for (let i=0; i < N_COINS; i++) {
-            var val = (balances[i] * c_rates[i] * token_balance / token_supply).toFixed(2);
-            $(l_info[i]).text(val);
+    if (default_account) {
+        var token_balance = parseInt(await swap_token.methods.balanceOf(default_account).call());
+        if (token_balance > 0) {
+            var token_supply = parseInt(await swap_token.methods.totalSupply().call());
+            var l_info = $('#lp-info li span');
+            $('#lp-info-container').show();
+            for (let i=0; i < N_COINS; i++) {
+                var val = (balances[i] * c_rates[i] * token_balance / token_supply).toFixed(2);
+                $(l_info[i]).text(val);
+            }
         }
     }
 }

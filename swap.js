@@ -108,10 +108,13 @@ async function init_ui() {
 window.addEventListener('load', async () => {
     init_menu();
 
-    if (window.ethereum) {
+    if (window.ethereum)
+    {
         window.web3 = new Web3(ethereum);
         await ethereum.enable();
-        await init_contracts();
-        await init_ui();
     }
+    else
+        window.web3 = new Web3(infura_url);
+    await init_contracts();
+    await init_ui();
 });

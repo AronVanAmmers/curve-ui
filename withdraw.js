@@ -3,11 +3,13 @@ var token_supply;
 
 async function update_balances() {
     var default_account = (await web3.eth.getAccounts())[0];
-    for (let i = 0; i < N_COINS; i++)
-        wallet_balances[i] = parseInt(await coins[i].methods.balanceOf(default_account).call());
+    if (default_account) {
+        for (let i = 0; i < N_COINS; i++)
+            wallet_balances[i] = parseInt(await coins[i].methods.balanceOf(default_account).call());
+        token_balance = parseInt(await swap_token.methods.balanceOf(default_account).call());
+    }
     for (let i = 0; i < N_COINS; i++)
         balances[i] = parseInt(await swap.methods.balances(i).call());
-    token_balance = parseInt(await swap_token.methods.balanceOf(default_account).call());
     token_supply = parseInt(await swap_token.methods.totalSupply().call());
 }
 
@@ -95,12 +97,15 @@ function init_ui() {
 window.addEventListener('load', async () => {
     init_menu();
 
-    if (window.ethereum) {
+    if (window.ethereum)
+    {
         window.web3 = new Web3(ethereum);
         await ethereum.enable();
-        await init_contracts();
-        await update_rates();
-        await update_balances();
-        init_ui();
     }
+    else
+        window.web3 = new Web3(infura_url);
+    await init_contracts();
+    await update_rates();
+    await update_balances();
+    init_ui();
 });
