@@ -45,8 +45,12 @@ function init_chart() {
 
     $.getJSON('stats.json', function(json) {
         var apr = json['apr'];
+        var daily_apr = json['daily_apr'];
+        var weekly_apr = json['weekly_apr'];
         var data = json['data']
         $('#apr-profit').text((apr * 100).toFixed(2));
+        $('#daily-apr').text((daily_apr * 100).toFixed(2));
+        $('#weekly-apr').text((weekly_apr * 100).toFixed(2));
 
         var step_size = Math.max(Math.round(data.length / 500), 1);
         var start_profit = data[0][1]
