@@ -305,7 +305,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 5167089
+  "gas": 1000000
  },
  {
   "name": "exchange_underlying",
@@ -336,7 +336,7 @@ var swap_abi = [
   "constant": false,
   "payable": false,
   "type": "function",
-  "gas": 5177748
+  "gas": 1000000
  },
  {
   "name": "remove_liquidity",
