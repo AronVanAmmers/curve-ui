@@ -2,7 +2,7 @@ var N_COINS = 2;
 var coin_precisions = [1e18, 1e6];
 var swap_address = '0x2e60CF74d81ac34eB21eEff58Db4D385920ef419';
 var token_address = '0x3740fb63ab7a09891d7c0d4299442A551D06F5fD';
-var infura_url = 'https://mainnet.infura.io/';
+var infura_url = 'https://mainnet.infura.io/v3/c334bb4b45a444979057f0fb8a0c9d1b';
 
 var swap_abi = [
  {
