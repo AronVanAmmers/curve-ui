@@ -1,7 +1,7 @@
 # Curve Finance UI
 
 <p align="center">
-  <img src="https://github.com/curvefi/curve-ui/blob/master/assets/curve-image.jpeg" />
+  <img src="https://raw.githubusercontent.com/curvefi/curve-ui/feature/add-info/assets/curve-image.jpeg" />
 </p>
 
 # Curve FAQ
