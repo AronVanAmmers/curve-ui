@@ -51,6 +51,8 @@ async function ensure_underlying_allowance(i, _amount) {
     })
 }
 
+// XXX not needed anymore
+// Keeping for old withdraw, to be removed whenever the chance is
 async function ensure_token_allowance() {
     var default_account = (await web3.eth.getAccounts())[0];
     if (parseInt(await swap_token.methods.allowance(default_account, swap_address).call()) == 0)
