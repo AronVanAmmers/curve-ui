@@ -43,6 +43,13 @@ async function set_to_amount() {
 async function from_cur_handler() {
     from_currency = $('input[type=radio][name=from_cur]:checked').val();
     to_currency = $('input[type=radio][name=to_cur]:checked').val();
+    var default_account = (await web3.eth.getAccounts())[0];
+
+    if (BigInt(await underlying_coins[from_currency].methods.allowance(default_account, swap_address).call()) > max_allowance / BigInt(2))
+        $('#inf-approval').prop('checked', true)
+    else
+        $('#inf-approval').prop('checked', false);
+
     await set_from_amount(from_currency);
     if (to_currency == from_currency) {
         if (from_currency == 0) {
@@ -79,8 +86,11 @@ async function handle_trade() {
         var dx = Math.floor($('#from_currency').val() * coin_precisions[i]);
         var min_dy = Math.floor($('#to_currency').val() * 0.95 * coin_precisions[j]);
         var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
-        await ensure_underlying_allowance(i, 0);
         dx = BigInt(dx).toString();
+        if ($('#inf-approval').prop('checked'))
+            await ensure_underlying_allowance(i, max_allowance)
+        else
+            await ensure_underlying_allowance(i, dx);
         min_dy = BigInt(min_dy).toString();
         await swap.methods.exchange_underlying(i, j, dx, min_dy, deadline).send({'from': default_account});
         await update_fee_info();

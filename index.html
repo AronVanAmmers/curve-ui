@@ -8,8 +8,8 @@
     <script src="/jquery.min.js"></script>
     <script src="/web3.min.js"></script>
     <script src="/abis.js?v21012020_2"></script>
-    <script src="/common.js?v13012020_4"></script>
-    <script src="/swap.js?v13012020_4"></script>
+    <script src="/common.js?v25012020_8"></script>
+    <script src="/swap.js?v25012020_8"></script>
   </head>
   <body>
     <div class="top-menu-bar">
@@ -62,6 +62,12 @@
                     </ul>
                 </fieldset>
                 <p class='exchange-rate'>Exchange rate (including fees): <span id="exchange-rate"></span></p>
+                <ul>
+                    <li>
+                        <input id="inf-approval" type="checkbox" name="inf-approval" checked>
+                        <label for="inf-approval">Infinite approval - trust this contract forever</label>
+                    </li>
+                </ul>
                 <p class='trade-buttons'>
                     <button id="trade">Sell</button>
                 </p>
