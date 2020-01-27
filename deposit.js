@@ -33,7 +33,7 @@ async function handle_add_liquidity() {
     var deadline = Math.floor((new Date()).getTime() / 1000) + trade_timeout;
     await swap.methods.add_liquidity(amounts, deadline).send({
         'from': default_account,
-        'gas': 900000});
+        'gas': 1300000});
     await handle_sync_balances();
     update_fee_info();
 }
